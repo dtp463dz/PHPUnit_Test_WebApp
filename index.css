@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+
+}
+
+.sidebar {
+    width:250px;
+    background-color:#d1c2c2;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed; /* Cố định vị trí */
+    height: 100%; /* Đặt chiều cao cho sidebar */
+    top: 0;
+}
+
+.sidebar-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+}
+.sidebar-header h3 a {
+    text-decoration: none;
+    color:#2e7b74;
+} 
+
+.sidebar-content ul {
+    list-style: none;
+}
+
+.sidebar-content li {
+    margin-bottom: 15px;
+}
+.sidebar-content ul li:hover{
+    background-color: #fff;
+}
+.sidebar-content li {
+    width: 100%; /* Đặt chiều rộng cho li */
+    border: none;
+    background: none;
+    /* text-align: left; */
+}
+
+.sidebar-content a {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+}
+
+.sidebar-content a:hover {
+    color: #000;
+}
+
+
+.sidebar-content li:hover {
+    transform: scale(1.1); /* Phóng to */
+}
+
+.sidebar-content li {
+    margin-bottom: 10px;
+    width: 100%; /* Chiếm đủ chiều rộng của container */
+}
+
+.sidebar-content li {
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+}
+.content {
+    margin-left: 250px; /* Đặt margin để không bị che bởi sidebar */
+    box-sizing: border-box;
+    background-color: #f4f7f9 ;
+    height:100%;
+}
+h1 {
+    font-size: 24px;
+    text-align: center;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-container label, .form-container input {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-left {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .form-right {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        /* Optional: Style the submit and reset buttons */
+        input[type="submit"], input[type="reset"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover, input[type="reset"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-left">
+            <form action="ThemSanPham.php" method="post" enctype="multipart/form-data">
+                <label>Tên sản phẩm</label>
+                <input type="text" name="TenSP">
+
+                <label>Ảnh</label>
+                <input type="file" name="HinhAnh">
+
+                <label>Mô Tả</label>
+                <input type="text" name="MoTa">
+
+                <label>Loại sản phẩm</label>
+                <input type="text" name="LoaiSP">
+            </form>
+        </div>
+        <div class="form-right">
+            <form action="ThemSanPham.php" method="post" enctype="multipart/form-data">
+                <label>Giá Bán</label>
+                <input type="number" name="GiaBan">
+
+                <label>Giá Nhập</label>
+                <input type="number" name="GiaNhap">
+
+                <label>Nhà Cung Cấp</label>
+                <input type="text" name="NhaCungCap">
+
+                <label>Số lượng tồn</label>
+                <input type="number" name="SLTon">
+
+                <label>Số lượng tồn tối thiểu</label>
+                <input type="number" name="SLTonToiThieu">
+
+                <label>Ngày Nhập</label>
+                <input type="date" name="NgayNhap">
+
+                <input type="submit" value="Thêm">
+                <input type="reset" value="Hủy">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
