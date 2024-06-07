@@ -60,4 +60,13 @@ class TimKiemSpTest extends TestCase
 
         $this->assertGreaterThan(0, $result->num_rows, "Không tìm thấy sản phẩm nhập vào ngày '$searchTerm'");
     }
+
+    public function testTimKiemChuoiKhongTonTai()
+    {
+        $searchTerm = "abcdfagasf";
+        $sql = "SELECT * FROM sanpham WHERE ten_sp LIKE '%$searchTerm%' OR loai_sp LIKE '%$searchTerm%' OR nha_cung_cap_sp LIKE '%$searchTerm%' OR ngay_nhap LIKE '%$searchTerm%'";
+        $result = $this->conn->query($sql);
+
+        $this->assertEquals(0, $result->num_rows, "Không nên tìm thấy dữ liệu khi tìm kiếm chuỗi không tồn tại");
+    }
 }

@@ -1,51 +1,58 @@
 <?php
+require_once './loginHandler.php';
 use PHPUnit\Framework\TestCase;
 
 class DangNhapTest extends TestCase
 {
-    private $conn;
+    private $loginHandler;
 
     protected function setUp(): void
     {
-        include "connect.php"; // Đảm bảo kết nối đã được thiết lập trước khi chạy testcase
-        $this->conn = $conn;
+        $this->loginHandler = new LoginHandler();
     }
 
-    public function testSuccessfulLogin()
+    /**
+     * TC1: Nhập user đúng, nhập password đúng
+     */
+    public function testValidLogin()
     {
-        // Giả lập dữ liệu đầu vào cho tên tài khoản và mật khẩu hợp lệ
-        $_POST["taikhoan"] = "huunghia";
-        $_POST["matkhau"] = "123456";
-
-        ob_start(); // Bắt đầu bắt kết quả của hàm header()
-
-        // Gọi hàm xử lý đăng nhập
-        include "DangNhap.php";
-
-        $output = ob_get_clean(); // Lấy kết quả của hàm header()
-
-        // Kiểm tra xem đã chuyển hướng đến trang chính hay không
-        $this->assertStringContainsString("Location: TrangChu.php", $output);
-
-        // Kiểm tra xem session có chứa tên tài khoản đã đăng nhập hay không
-        $this->assertEquals("huunghia", $_SESSION['taikhoan']);
+        $username = 'huunghia';
+        $password = '123456';
+        $result = $this->loginHandler->login($username, $password);
+        $this->assertTrue($result);
     }
 
-    public function testFailedLogin()
+    /**
+     * TC2: Nhập user đúng, nhập password sai
+     */
+    public function testInvalidPassword()
     {
-        // Giả lập dữ liệu đầu vào cho tên tài khoản và mật khẩu không hợp lệ
-        $_POST["taikhoan"] = "khongtontai";
-        $_POST["matkhau"] = "wrongpassword";
-
-        ob_start(); // Bắt đầu bắt kết quả của hàm echo
-
-        // Gọi hàm xử lý đăng nhập
-        include "DangNhap.php";
-
-        $output = ob_get_clean(); // Lấy kết quả của hàm echo
-
-        // Kiểm tra xem có thông báo lỗi hiển thị hay không
-        $this->assertStringContainsString("Tài khoản hoặc mật khẩu sai", $output);
+        $username = 'huunghia';
+        $password = 'wrongpassword';
+        $result = $this->loginHandler->login($username, $password);
+        $this->assertFalse($result);
     }
+
+    /**
+     * TC3: Nhập user sai, nhập password đúng
+     */
+    public function testInvalidUsername()
+    {
+        $username = 'wronguser';
+        $password = '123456';
+        $result = $this->loginHandler->login($username, $password);
+        $this->assertFalse($result);
+    }
+
+    /**
+     * TC4: Nhập user sai, nhập password sai
+     */
+    public function testInvalidCredentials()
+    {
+        $username = 'wronguser';
+        $password = 'wrongpassword';
+        $result = $this->loginHandler->login($username, $password);
+        $this->assertFalse($result);
+    }
+
 }
-?>
