@@ -25,39 +25,13 @@ class TimKiemLoaiSPTest extends TestCase
         $this->conn->close();
     }
 
-    public function testTimKiemTenKH()
+    public function testTimKiemLoaiSPTest()
     {
-        $searchTerm = "Nam";
-        $sql = "SELECT * FROM khachhang WHERE ten_kh LIKE '%$searchTerm%'";
+        $searchTerm = "Laptop";
+        $sql = "SELECT * FROM loaisanpham WHERE ten_loai_sp LIKE '%$searchTerm%'";
         $result = $this->conn->query($sql);
 
-        $this->assertGreaterThan(0, $result->num_rows, "Không tìm thấy tên khách hàng có tên chứa '$searchTerm'");
+        $this->assertGreaterThan(0, $result->num_rows, "Không tìm thấy loại sp có tên chứa '$searchTerm'");
     }
 
-    public function testTimKiemSdtKH()
-    {
-        $searchTerm = "68669";
-        $sql = "SELECT * FROM khachhang WHERE sdt_kh LIKE '%$searchTerm%'";
-        $result = $this->conn->query($sql);
-
-        $this->assertGreaterThan(0, $result->num_rows, "Không tìm thấy sdt Khách hàng '$searchTerm'");
-    }
-
-    public function testTimKiemDiaChiKH()
-    {
-        $searchTerm = "HN";
-        $sql = "SELECT * FROM khachhang WHERE dia_chi_kh LIKE '%$searchTerm%'";
-        $result = $this->conn->query($sql);
-
-        $this->assertGreaterThan(0, $result->num_rows, "Không tìm thấy địa chỉ của khách hàng '$searchTerm'");
-    }
-
-    public function testTimKiemEmailKH()
-    {
-        $searchTerm = "nam@gmail.com";
-        $sql = "SELECT * FROM khachhang WHERE email_kh LIKE '%$searchTerm%'";
-        $result = $this->conn->query($sql);
-
-        $this->assertGreaterThan(0, $result->num_rows, "Không tìm thấy email khách hàng '$searchTerm'");
-    }
 }
