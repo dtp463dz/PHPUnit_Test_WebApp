@@ -1,56 +1,56 @@
 <?php
+require_once 'dangkylogic.php';
+
 use PHPUnit\Framework\TestCase;
 
 class DangKyTest extends TestCase
 {
-    public function testEmptyFields()
+    private $conn;
+
+    public function setUp(): void
     {
-        // Chuẩn bị dữ liệu giả định cho biến POST (tất cả các trường đều trống)
-        $_POST["taikhoan"] = "";
-        $_POST["matkhau"] = "";
-        $_POST["level"] = "";
-        $_FILES["HinhAnh"] = array('name' => "", 'tmp_name' => "");
-        $_POST["hoten"] = "";
-        $_POST["namsinh"] = "";
-        $_POST["sdt"] = "";
-        $_POST["diachi"] = "";
-
-        // Chuẩn bị sử dụng output buffering để bắt kết quả của echo
-        ob_start();
-
-        // Bao gồm file DangKy.php để thực thi
-        include "DangKy.php";
-
-        // Lấy kết quả của echo
-        $output = ob_get_clean();
-
-        // Kiểm tra xem có thông báo lỗi hiển thị hay không
-        $this->assertStringContainsString("Vui lòng điền đầy đủ thông tin vào tất cả các trường.", $output);
+        // Khởi tạo kết nối cơ sở dữ liệu cho mỗi test case
+        $this->conn = new mysqli('localhost', 'root', '', 'pj09qlhtk');
     }
 
-    public function testSuccessfulRegistration()
+    public function tearDown(): void
     {
-        // Chuẩn bị dữ liệu giả định cho biến POST (đầy đủ thông tin)
-        $_POST["taikhoan"] = "testuser";
-        $_POST["matkhau"] = "password";
-        $_POST["level"] = 1;
-        $_FILES["HinhAnh"] = array('name' => "testimage.jpg", 'tmp_name' => "testimage_tmp.jpg");
-        $_POST["hoten"] = "Test User";
-        $_POST["namsinh"] = 1990;
-        $_POST["sdt"] = "0123456789";
-        $_POST["diachi"] = "123 Test Street";
+        // Đóng kết nối cơ sở dữ liệu sau mỗi test case
+        $this->conn->close();
+    }
 
-        // Chuẩn bị sử dụng output buffering để bắt kết quả của lệnh header()
-        ob_start();
+    public function testRegisterUserWithValidData()
+    {
+        $taikhoan = 'testuser';
+        $matkhau = 'password123';
+        $level = 1;
+        $anh = 'AnhoLe_PC.png';
+        $anh_tmp_name = './images/AnhoLe_PC.png';
+        $hoten = 'Test User';
+        $namsinh = 1990;
+        $sdt = '0123456789';
+        $diachi = 'Test Address';
 
-        // Bao gồm file DangKy.php để thực thi
-        include "DangKy.php";
+        $result = registerUser($taikhoan, $matkhau, $level, $anh, $hoten, $namsinh, $sdt, $diachi, $this->conn);
+        $this->assertTrue($result);
 
-        // Lấy kết quả của lệnh header()
-        $output = ob_get_clean();
+        // Xóa dữ liệu test khỏi cơ sở dữ liệu sau khi test
+        // $this->conn->query("DELETE FROM thanhvien WHERE taikhoan = '$taikhoan'");
+    }
 
-        // Kiểm tra xem đã chuyển hướng đến trang đăng nhập hay không
-        $this->assertStringContainsString("Location: DangNhap.php", $output);
+    public function testRegisterUserWithInvalidData()
+    {
+        $taikhoan = '';
+        $matkhau = 'password123';
+        $level = 1;
+        $anh = 'test.jpg';
+        $anh_tmp_name = '/path/to/test.jpg';
+        $hoten = 'Test User';
+        $namsinh = 1990;
+        $sdt = '0123456789';
+        $diachi = 'Test Address';
+
+        $result = registerUser($taikhoan, $matkhau, $level, $anh, $hoten, $namsinh, $sdt, $diachi, $this->conn);
+        $this->assertEquals('Vui lòng điền đầy đủ thông tin vào tất cả các trường.', $result);
     }
 }
-?>
